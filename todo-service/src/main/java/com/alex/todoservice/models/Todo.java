@@ -1,4 +1,4 @@
-package com.alex.todoservice.Model;
+package com.alex.todoservice.models;
 
 import java.util.Date;
 

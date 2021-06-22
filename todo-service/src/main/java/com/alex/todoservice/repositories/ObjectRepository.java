@@ -1,12 +1,13 @@
-package com.alex.todoservice.DataAccessObject;
+package com.alex.todoservice.repositories;
 
+import com.alex.todoservice.exceptions.EntryNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
-public interface Dao<T> {
+public interface ObjectRepository<T> {
 
     Optional<T> get(long id);
 
@@ -14,9 +15,7 @@ public interface Dao<T> {
 
     void add(T t);
 
-    void update(T t);
+    void update(long id, T t) throws EntryNotFoundException;
 
     void delete(long id);
-
-    void delete(T t);
 }
