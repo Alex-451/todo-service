@@ -15,11 +15,9 @@ import java.util.List;
 @Service("TodoService")
 public class TodoService {
 
-    @Autowired
-    @Qualifier("JsonRepository")
-    ObjectRepository repository;
+    final ObjectRepository repository;
 
-    public TodoService(ObjectRepository repository) {
+    public TodoService(@Qualifier("JsonRepository") ObjectRepository repository) {
         this.repository = repository;
     }
 
@@ -28,13 +26,11 @@ public class TodoService {
     }
 
     public ResponseEntity<Object> getTodo(long todoId) {
-        var todo = repository.get(todoId);
-
-        if (todo.isPresent()) {
-            return ResponseEntity.ok(todo.get());
+        try {
+            return ResponseEntity.ok(repository.get(todoId));
+        } catch (EntryNotFoundException ex) {
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<Object> addTodo(Todo todo) {
@@ -65,5 +61,4 @@ public class TodoService {
         repository.delete(todoId);
         return ResponseEntity.ok().build();
     }
-
 }

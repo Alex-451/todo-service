@@ -15,11 +15,9 @@ import java.net.URI;
 @RequestMapping(path = "/todos")
 public class TodoController {
 
-    @Autowired
-    @Qualifier("TodoService")
-    TodoService todoService;
+    final TodoService todoService;
 
-    public TodoController(TodoService todoService) {
+    public TodoController(@Qualifier("TodoService") TodoService todoService) {
         this.todoService = todoService;
     }
 

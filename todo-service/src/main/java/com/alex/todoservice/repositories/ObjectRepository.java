@@ -9,7 +9,7 @@ import java.util.Optional;
 @Component
 public interface ObjectRepository<T> {
 
-    Optional<T> get(long id);
+    T get(long id) throws EntryNotFoundException;;
 
     List<T> getAll();
 

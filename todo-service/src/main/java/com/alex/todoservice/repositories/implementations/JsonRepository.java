@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.FileReader;
@@ -21,17 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @Qualifier("JsonRepository")
 public class JsonRepository implements ObjectRepository<Todo> {
 
-    @Autowired
-    Gson gson;
+    final Gson gson;
 
     private static final String jsonFilePath = "todos.json";
     private static final Path jsonPath = Paths.get(jsonFilePath);
     private static final File jsonFile = new File(jsonFilePath);
-    private static final Type objectType = new TypeToken<List<Todo>>() {}.getType();
+    private static final Type objectType = new TypeToken<List<Todo>>() {
+    }.getType();
 
     private List<Todo> todos;
 
@@ -55,9 +56,13 @@ public class JsonRepository implements ObjectRepository<Todo> {
     }
 
     @Override
-    public Optional<Todo> get(long id) {
+    public Todo get(long id) throws EntryNotFoundException {
         var filteredTodo = todos.stream().filter(t -> t.getId() == id).findFirst();
-        return filteredTodo;
+
+        if (filteredTodo.isPresent())
+            return filteredTodo.get();
+
+        throw new EntryNotFoundException(id);
     }
 
     @Override
@@ -76,14 +81,13 @@ public class JsonRepository implements ObjectRepository<Todo> {
 
     @Override
     public void update(long id, Todo todo) throws EntryNotFoundException {
-        var todoToUpdate = todos.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        var todoToUpdate = todos.stream().filter(t -> t.getId() == id).findFirst();
 
-        if (todoToUpdate == null)
+        if (!todoToUpdate.isPresent())
             throw new EntryNotFoundException(id);
 
         todo.setId(id);
-
-        todos.set(todos.indexOf(todoToUpdate), todo);
+        todos.set(todos.indexOf(todoToUpdate.get()), todo);
         save();
     }
 
@@ -91,7 +95,7 @@ public class JsonRepository implements ObjectRepository<Todo> {
     public void delete(long id) {
         var todoToRemove = todos.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
 
-        if(todoToRemove == null)
+        if (todoToRemove == null)
             return;
 
         todos.remove(todoToRemove);
@@ -111,10 +115,9 @@ public class JsonRepository implements ObjectRepository<Todo> {
 
     private List<Todo> loadTodos() {
         try {
-
             var jsonContent = new FileReader(jsonFilePath);
-            return gson.fromJson(jsonContent, objectType);
-
+            List<Todo> list = gson.fromJson(jsonContent, objectType);
+            return list;
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
         }
