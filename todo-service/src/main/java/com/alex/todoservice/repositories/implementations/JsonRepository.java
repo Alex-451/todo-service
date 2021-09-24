@@ -31,8 +31,7 @@ public class JsonRepository implements ObjectRepository<Todo> {
     private static final String jsonFilePath = "todos.json";
     private static final Path jsonPath = Paths.get(jsonFilePath);
     private static final File jsonFile = new File(jsonFilePath);
-    private static final Type objectType = new TypeToken<List<Todo>>() {
-    }.getType();
+    private static final Type objectType = new TypeToken<List<Todo>>() {}.getType();
 
     private List<Todo> todos;
 
