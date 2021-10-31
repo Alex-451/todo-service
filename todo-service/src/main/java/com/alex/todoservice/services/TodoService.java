@@ -17,7 +17,7 @@ public class TodoService {
 
     final ObjectRepository repository;
 
-    public TodoService(@Qualifier("JsonRepository") ObjectRepository repository) {
+    public TodoService(@Qualifier("JdbcRepository") ObjectRepository repository) {
         this.repository = repository;
     }
 

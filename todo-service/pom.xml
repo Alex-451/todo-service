@@ -12,14 +12,28 @@
 	<artifactId>todo-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>todo-service</name>
-	<description>Simple rest api for a todo application.</description>
+	<description>Simple rest API for my todo application.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jdbc</artifactId>
+			<version>2.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

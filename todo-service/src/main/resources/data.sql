@@ -1,0 +1,3 @@
+INSERT INTO `todo`.`todos` (`title`, `description`, `creation_date`, `due_date`, `is_completed`) VALUES ('JDBC repo', 'Add JDBC Repo to java test application', '2021-10-30 13:21:21', '2021-11-30 13:21:24', b'0');
+INSERT INTO `todo`.`todos` (`title`, `description`, `creation_date`, `due_date`, `is_completed`) VALUES ('Cisco CCNA', 'Finish Cisco assignements', '2021-10-30 13:21:21', '2021-11-15 13:21:24', b'1');
+INSERT INTO `todo`.`todos` (`title`, `description`, `creation_date`, `due_date`, `is_completed`) VALUES ('Study', 'Study for the final exam pog', '2021-10-30 13:21:21', '2022-12-30 13:21:24', b'0');
